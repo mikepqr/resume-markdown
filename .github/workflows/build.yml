@@ -33,10 +33,10 @@ jobs:
     - name: Install mscorefonts (Linux)
       if: runner.os == 'Linux'
       run: |
-        echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | debconf-set-selections
-        apt-get update
-        apt-get install -y --no-install-recommends ttf-mscorefonts-installer fontconfig
-        fc-cache -f -v
+        echo "ttf-mscorefonts-installer msttcorefonts/accepted-mscorefonts-eula select true" | sudo debconf-set-selections
+        sudo apt-get update
+        sudo apt-get install -y --no-install-recommends ttf-mscorefonts-installer fontconfig
+        sudo fc-cache -f -v
 
     - name: Make resume
       run: resume-markdown --debug build
