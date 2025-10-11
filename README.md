@@ -1,6 +1,6 @@
 # resume.md
 
-![Resume](example/resume.png)
+![Resume](https://raw.githubusercontent.com/mikepqr/resume-markdown/main/example/resume.png)
 
 Write your resume in
 [Markdown](https://raw.githubusercontent.com/mikepqr/resume-markdown/main/src/resume_markdown/resume.md),
@@ -14,14 +14,12 @@ style it with [CSS](src/resume_markdown/resume.css), output to [`resume.html`](e
 
 ## Installation
 
-Note: This package is not yet published to PyPI. Install from GitHub using one of the methods below.
-
 ### Using uvx (recommended, no installation needed)
 
 Run directly without installing:
 
 ```bash
-uvx --from git+https://github.com/mikepqr/resume-markdown resume-markdown
+uvx resume-markdown
 ```
 
 ### Using uv tool install (persistent installation)
@@ -29,15 +27,13 @@ uvx --from git+https://github.com/mikepqr/resume-markdown resume-markdown
 Install once, use everywhere:
 
 ```bash
-uv tool install git+https://github.com/mikepqr/resume-markdown
-resume-markdown
+uv tool install resume-markdown
 ```
 
 ### Using pip
 
 ```bash
-pip install git+https://github.com/mikepqr/resume-markdown
-resume-markdown
+pip install resume-markdown
 ```
 
 ## Usage
@@ -48,7 +44,7 @@ resume-markdown
 
     ```bash
     resume-markdown init
-    # or with uvx: uvx --from git+https://github.com/mikepqr/resume-markdown resume-markdown init
+    # or with uvx: uvx resume-markdown init
     ```
 
     This creates [`resume.md`](src/resume_markdown/resume.md) and [`resume.css`](src/resume_markdown/resume.css) in the current directory.
@@ -60,7 +56,7 @@ resume-markdown
 
     ```bash
     resume-markdown build
-    # or with uvx: uvx --from git+https://github.com/mikepqr/resume-markdown resume-markdown build
+    # or with uvx: uvx resume-markdown build
     ```
 
 ### Build options
