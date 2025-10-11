@@ -28,9 +28,9 @@ classifiers = [
 ]
 
 [project.urls]
-Homepage = "https://github.com/mikepqr/resume.md"
-Repository = "https://github.com/mikepqr/resume.md"
-Issues = "https://github.com/mikepqr/resume.md/issues"
+Homepage = "https://github.com/mikepqr/resume-markdown"
+Repository = "https://github.com/mikepqr/resume-markdown"
+Issues = "https://github.com/mikepqr/resume-markdown/issues"
 
 [project.scripts]
 resume-markdown = "resume_markdown:main"
