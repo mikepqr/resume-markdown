@@ -72,11 +72,12 @@ jobs:
       run: |
           mv artifacts/resume_Windows.pdf example/resume.pdf
           mv artifacts/resume_Windows.html example/resume.html
+          convert -density 150 example/resume.pdf[0] -crop 100%x600+0+0 +repage example/resume.png
 
     - name: Commit changes
       run: |
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add example/resume.pdf example/resume.html
+          git add example/resume.pdf example/resume.html example/resume.png
           git diff --staged --quiet || git commit -m "Update example outputs"
           git push
