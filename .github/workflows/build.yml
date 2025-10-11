@@ -4,6 +4,9 @@ on:
     workflow_dispatch:
     pull_request:
     push:
+        branches: [main]
+        paths-ignore:
+            - 'example/**'
 
 jobs:
   build:
@@ -50,3 +53,30 @@ jobs:
           path: |
               *.pdf
               *.html
+
+  update-examples:
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+    - name: Check out repo
+      uses: actions/checkout@v4
+
+    - name: Download Windows artifacts
+      uses: actions/download-artifact@v4
+      with:
+          name: resume-Windows
+          path: artifacts
+
+    - name: Update example files
+      run: |
+          mv artifacts/resume_Windows.pdf example/resume.pdf
+          mv artifacts/resume_Windows.html example/resume.html
+
+    - name: Commit changes
+      run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add example/resume.pdf example/resume.html
+          git diff --staged --quiet || git commit -m "Update example outputs"
+          git push
