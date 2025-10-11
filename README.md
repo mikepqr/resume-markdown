@@ -1,39 +1,89 @@
 # resume.md
 
-![Resume](resume.png)
+![Resume](example/resume.png)
 
 Write your resume in
-[Markdown](https://raw.githubusercontent.com/mikepqr/resume.md/main/resume.md),
-style it with [CSS](resume.css), output to [HTML](resume.html) and
-[PDF](resume.pdf).
+[Markdown](https://raw.githubusercontent.com/mikepqr/resume.md/main/src/resume_markdown/resume.md),
+style it with [CSS](src/resume_markdown/resume.css), output to [`resume.html`](example/resume.html) and
+[`resume.pdf`](example/resume.pdf).
 
 ## Prerequisites
 
- - Python ≥ 3.6
- - [python-markdown](https://python-markdown.github.io/) (`pip install
-   markdown`)
+ - Python ≥ 3.9 or `uv`
  - Optional, required for PDF output: Google Chrome or Chromium
+
+## Installation
+
+Note: This package is not yet published to PyPI. Install from GitHub using one of the methods below.
+
+### Using uvx (recommended, no installation needed)
+
+Run directly without installing:
+
+```bash
+uvx --from git+https://github.com/mikepqr/resume.md resume-markdown
+```
+
+### Using uv tool install (persistent installation)
+
+Install once, use everywhere:
+
+```bash
+uv tool install git+https://github.com/mikepqr/resume.md
+resume-markdown
+```
+
+### Using pip
+
+```bash
+pip install git+https://github.com/mikepqr/resume.md
+resume-markdown
+```
 
 ## Usage
 
- 1. Download [resume.py](resume.py), [resume.md](resume.md) and
-    [resume.css](resume.css) (or make a copy of this repository by [using the
-    template](https://github.com/mikepqr/resume.md/generate), forking, or
-    cloning).
+### Quick start
 
- 2. Edit [resume.md](resume.md) (the placeholder text is taken with thanks from
-    the [JSON Resume Project](https://jsonresume.org/themes/))
+ 1. Create template files in your current directory:
 
- 3. Run `python3 resume.py` to build resume.html and resume.pdf.
+    ```bash
+    resume-markdown init
+    # or with uvx: uvx --from git+https://github.com/mikepqr/resume.md resume-markdown init
+    ```
 
-     - Use `--no-html` or `--no-pdf` to disable HTML or PDF output.
+    This creates [`resume.md`](src/resume_markdown/resume.md) and [`resume.css`](src/resume_markdown/resume.css) in the current directory.
 
-     - Use `--chrome-path=/path/to/chrome` if resume.py cannot find your Chrome
-       or Chromium executable.
+ 2. Edit your copy of `resume.md` with your resume content (the placeholder text is taken
+    with thanks from the [JSON Resume Project](https://jsonresume.org/themes/))
+
+ 3. Build HTML and PDF output:
+
+    ```bash
+    resume-markdown build
+    # or with uvx: uvx --from git+https://github.com/mikepqr/resume.md resume-markdown build
+    ```
+
+### Build options
+
+ - Use `--no-html` or `--no-pdf` to disable HTML or PDF output:
+   ```bash
+   resume-markdown build --no-pdf
+   ```
+
+ - Use `--chrome-path=/path/to/chrome` if the tool cannot find your Chrome
+   or Chromium executable (needed for PDF output)
+   ```bash
+   resume-markdown build --chrome-path=/path/to/chrome
+   ```
+
+ - Specify a custom input file:
+   ```bash
+   resume-markdown build myresume.md
+   ```
 
 ## Customization
 
-Edit [resume.css](resume.css) to change the appearance of your resume. The
+Edit [`resume.css`](src/resume_markdown/resume.css) to change the appearance of your resume. The
 default style is extremely generic, which is perhaps what you want in a resume,
 but CSS gives you a lot of flexibility. See, e.g. [The Tech Resume
 Inside-Out](https://www.thetechinterview.com/) for good advice about what a
@@ -44,13 +94,3 @@ adding rules under the `@media print` CSS selector.
 
 Change the margins and paper size of the PDF version by editing the [`@page` CSS
 rule](https://developer.mozilla.org/en-US/docs/Web/CSS/%40page/size).
-
-[python-markdown](https://python-markdown.github.io/) is by default a very basic
-markdown compiler, but it has a number of optional extensions that you may want
-to enable (by adding to [the list of extensions
-here](https://github.com/mikepqr/resume.md/blob/f1b0699a9b66833cb67bb59111f45a09ed3c0f7e/resume.py#L112)).
-<code><a
-href="https://python-markdown.github.io/extensions/attr_list/">attr_list</a></code>
-in particular may by useful if you are editing the CSS.
-[abbreviations](https://python-markdown.github.io/extensions/abbreviations/)
-extension is already enabled.

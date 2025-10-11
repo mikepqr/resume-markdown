@@ -9,6 +9,7 @@ import shutil
 import subprocess
 import sys
 import tempfile
+from importlib.resources import files
 
 import markdown
 
@@ -118,6 +119,24 @@ def make_html(md: str, prefix: str = "resume") -> str:
     )
 
 
+def init_resume(directory: str = ".") -> None:
+    """
+    Write template resume.md and resume.css files to the specified directory.
+    """
+    package_files = files("resume_markdown")
+
+    for filename in ["resume.md", "resume.css"]:
+        dest_path = os.path.join(directory, filename)
+        if os.path.exists(dest_path):
+            logging.warning(f"{dest_path} already exists, skipping")
+            continue
+
+        template_content = (package_files / filename).read_text(encoding="utf-8")
+        with open(dest_path, "w", encoding="utf-8") as f:
+            f.write(template_content)
+        logging.info(f"Wrote {dest_path}")
+
+
 def write_pdf(html: str, prefix: str = "resume", chrome: str = "") -> None:
     """
     Write html to prefix.pdf
@@ -174,30 +193,47 @@ def write_pdf(html: str, prefix: str = "resume", chrome: str = "") -> None:
             logging.debug(f"Could not delete {tmpdir}")
 
 
-if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument(
+def main():
+    parser = argparse.ArgumentParser(
+        description="Convert Markdown resumes to HTML and PDF"
+    )
+    parser.add_argument("-q", "--quiet", action="store_true")
+    parser.add_argument("--debug", action="store_true")
+
+    subparsers = parser.add_subparsers(dest="command", help="Available commands")
+
+    # init command
+    init_parser = subparsers.add_parser(
+        "init",
+        help="Create resume.md and resume.css template files"
+    )
+
+    # build command
+    build_parser = subparsers.add_parser(
+        "build",
+        help="Build HTML and PDF from Markdown resume"
+    )
+    build_parser.add_argument(
         "file",
         help="markdown input file [resume.md]",
         default="resume.md",
         nargs="?",
     )
-    parser.add_argument(
+    build_parser.add_argument(
         "--no-html",
         help="Do not write html output",
         action="store_true",
     )
-    parser.add_argument(
+    build_parser.add_argument(
         "--no-pdf",
         help="Do not write pdf output",
         action="store_true",
     )
-    parser.add_argument(
+    build_parser.add_argument(
         "--chrome-path",
         help="Path to Chrome or Chromium executable",
     )
-    parser.add_argument("-q", "--quiet", action="store_true")
-    parser.add_argument("--debug", action="store_true")
+
     args = parser.parse_args()
 
     if args.quiet:
@@ -207,16 +243,25 @@ if __name__ == "__main__":
     else:
         logging.basicConfig(level=logging.INFO, format="%(message)s")
 
-    prefix, _ = os.path.splitext(os.path.abspath(args.file))
+    if args.command == "init":
+        init_resume()
+    elif args.command == "build":
+        prefix, _ = os.path.splitext(os.path.abspath(args.file))
 
-    with open(args.file, encoding="utf-8") as mdfp:
-        md = mdfp.read()
-    html = make_html(md, prefix=prefix)
+        with open(args.file, encoding="utf-8") as mdfp:
+            md = mdfp.read()
+        html = make_html(md, prefix=prefix)
 
-    if not args.no_html:
-        with open(prefix + ".html", "w", encoding="utf-8") as htmlfp:
-            htmlfp.write(html)
-            logging.info(f"Wrote {htmlfp.name}")
+        if not args.no_html:
+            with open(prefix + ".html", "w", encoding="utf-8") as htmlfp:
+                htmlfp.write(html)
+                logging.info(f"Wrote {htmlfp.name}")
 
-    if not args.no_pdf:
-        write_pdf(html, prefix=prefix, chrome=args.chrome_path)
+        if not args.no_pdf:
+            write_pdf(html, prefix=prefix, chrome=args.chrome_path)
+    else:
+        parser.print_help()
+
+
+if __name__ == "__main__":
+    main()

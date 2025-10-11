@@ -17,16 +17,17 @@ jobs:
     - name: Check out repo
       uses: actions/checkout@v4
 
-    - name: Set up Python
-      uses: actions/setup-python@v5
-      with:
-        python-version: '3.x'
+    - name: Set up uv
+      uses: astral-sh/setup-uv@v5
 
-    - name: Install dependencies
-      run: pip install markdown
+    - name: Install package
+      run: uv tool install .
+
+    - name: Initialize resume templates
+      run: resume-markdown init
 
     - name: Make resume
-      run: python resume.py --debug
+      run: resume-markdown --debug build
 
     - name: Rename output (Unix)
       if: runner.os != 'Windows'
