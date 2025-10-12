@@ -14,7 +14,7 @@ style it with [CSS](src/resume_markdown/resume.css), output to [`resume.html`](e
 
 ## Installation
 
-### Using uvx (recommended, no installation needed)
+### Using uv
 
 Run directly without installing:
 
@@ -22,9 +22,7 @@ Run directly without installing:
 uvx resume-markdown
 ```
 
-### Using uv tool install (persistent installation)
-
-Install once, use everywhere:
+Or install once:
 
 ```bash
 uv tool install resume-markdown

@@ -76,7 +76,11 @@ jobs:
       run: |
           mv artifacts/resume_Windows.pdf example/resume.pdf
           mv artifacts/resume_Windows.html example/resume.html
-          convert -density 150 example/resume.pdf[0] -crop 100%x600+0+0 +repage example/resume.png
+          magick -density 300 example/resume.pdf[0] -background white -alpha remove \
+            -crop 2550x1176+0+0 +repage \
+            \( -size 2550x196 gradient:none-white \) \
+            -gravity South -composite \
+            -resize 1300x600 example/resume.png
 
     - name: Commit changes
       run: |
