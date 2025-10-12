@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "resume-markdown"
-version = "1.0.0"
+version = "1.0.1"
 description = "Convert Markdown resumes to HTML and PDF"
 readme = "README.md"
 license = {text = "MIT"}
