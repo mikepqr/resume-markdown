@@ -126,6 +126,10 @@ def init_resume(directory: str = ".") -> None:
     package_files = files("resume_markdown")
 
     for filename in ["resume.md", "resume.css"]:
+        dest_dir = os.path.join(directory)
+        if not os.path.exists(dest_dir):
+            os.mkdir(dest_dir)
+
         dest_path = os.path.join(directory, filename)
         if os.path.exists(dest_path):
             logging.warning(f"{dest_path} already exists, skipping")
@@ -208,6 +212,13 @@ def main():
         help="Create resume.md and resume.css template files"
     )
 
+    init_parser.add_argument(
+        "directory",
+        help="markdown output directory [.] for resume.md and resume.css template files",
+        default=".",
+        nargs="?",
+    )
+
     # build command
     build_parser = subparsers.add_parser(
         "build",
@@ -244,7 +255,10 @@ def main():
         logging.basicConfig(level=logging.INFO, format="%(message)s")
 
     if args.command == "init":
-        init_resume()
+        directory, _ = os.path.splitext(os.path.abspath(args.directory))
+
+        init_resume(directory=directory)
+
     elif args.command == "build":
         prefix, _ = os.path.splitext(os.path.abspath(args.file))
 

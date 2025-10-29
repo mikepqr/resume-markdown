@@ -47,6 +47,13 @@ pip install resume-markdown
 
     This creates [`resume.md`](src/resume_markdown/resume.md) and [`resume.css`](src/resume_markdown/resume.css) in the current directory.
 
+### Init options
+
+ - Specify a custom output directory:
+   ```bash
+   resume-markdown init myoutput-folder
+   ```
+
  2. Edit your copy of `resume.md` with your resume content (the placeholder text is taken
     with thanks from the [JSON Resume Project](https://jsonresume.org/themes/))
 
