@@ -110,9 +110,14 @@ def make_html(md: str, prefix: str = "resume") -> str:
     except FileNotFoundError:
         print(prefix + ".css not found. Output will by unstyled.")
         css = ""
+    try:
+        doc_title = title(md)
+    except ValueError:
+        doc_title = os.path.basename(prefix)
+        print(f"no h1 heading found; using {doc_title} as the title.")
     return "".join(
         (
-            preamble.format(title=title(md), css=css),
+            preamble.format(title=doc_title, css=css),
             markdown.markdown(md, extensions=["smarty", "abbr"]),
             postamble,
         )
